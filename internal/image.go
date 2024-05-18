@@ -13,12 +13,15 @@ type ImageItem struct {
 }
 
 func DownloadImage(ctx context.Context, image ImageItem) error {
+	picpath := "data/pic/"
+	picname := guid.S() + ".jpg"
 	res, err := g.Client().Get(ctx, image.Url)
 	if err != nil {
 		return err
 	}
 	defer res.Close()
-	gfile.PutBytes("data/pic/"+guid.S()+".jpg", res.ReadAll())
+	gfile.PutBytes(picpath+picname, res.ReadAll())
+	g.Log().Debugf(ctx, "picname: %s", picname)
 
 	return nil
 
