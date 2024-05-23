@@ -21,8 +21,45 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/c2dp/zenkit/cmd"
+import (
+	"fmt"
+	"github.com/c2dp/zenkit/internal"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gcfg"
+	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"os"
+)
+
+var (
+	ctx = gctx.New()
+)
 
 func main() {
-	cmd.Execute()
+	//cmd.Execute()
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"ID", "源地址", "目标地址", "PacketLoss", "AvgRtt"})
+
+	cfg, err := gcfg.New()
+	if err != nil {
+		g.Log().Error(ctx, err)
+	}
+	addrSet, err := cfg.Get(ctx, "ping")
+	if err != nil {
+		g.Log().Error(ctx, err)
+
+	}
+	for idx, addr := range addrSet.Strings() {
+
+		receive, err := internal.Ping(3, addr)
+		if err != nil {
+			g.Log().Errorf(ctx, "ping: %v", err)
+		}
+		t.AppendRows([]table.Row{
+			{idx, receive.SrcIpAddr, receive.DestIpAddr, fmt.Sprintf("%.2f%%", receive.PacketLoss*100), fmt.Sprintf("%.3fms", receive.AvgRtt)},
+		})
+	}
+	t.AppendSeparator()
+	t.Render()
 }
