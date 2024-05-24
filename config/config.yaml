@@ -17,12 +17,9 @@ logger:
   writerColorEnable:     false                 # 日志文件是否带上颜色。默认false，表示不带颜色
 
 ping:
-  srcIP:
-    - 172.20.10.2
   descIP:
 #  - 10.0.70.70
-  - 172.20.10.2
-  - 172.20.10.2
+  - 192.168.1.24
   - www.baidu.com
   - github.com
   - www.google.com

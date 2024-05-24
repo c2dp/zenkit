@@ -23,11 +23,6 @@ package main
 
 import (
 	"github.com/c2dp/zenkit/cmd"
-	"github.com/gogf/gf/v2/os/gctx"
-)
-
-var (
-	ctx = gctx.New()
 )
 
 func main() {
