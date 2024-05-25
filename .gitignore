@@ -236,3 +236,4 @@ fabric.properties
 
 data/*
 logs/*
+dist/

@@ -79,7 +79,7 @@ func singlePing(cnt int, src, desc string) (*PingReceive, error) {
 func BatchPing() {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader(table.Row{"序号", "源地址", "目标地址", "丢包率", "平均往返时间【单位：毫秒】"})
+	t.AppendHeader(table.Row{"序号", "源地址", "目标地址", "丢包率", "平均往返时间"})
 
 	addrSet, err := g.Cfg().Get(ctx, "ping.descIP")
 	if err != nil {
@@ -95,7 +95,7 @@ func BatchPing() {
 
 		for idx, addr := range addrSet.Strings() {
 
-			receive, err := singlePing(3, src.IP.String(), addr)
+			receive, err := singlePing(3, src.String(), addr)
 			if err != nil {
 				g.Log().Errorf(ctx, "pingsss: %v", err)
 			}
