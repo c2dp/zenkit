@@ -26,20 +26,28 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// pingCmd represents the ping command
-var pingCmd = &cobra.Command{
-	Use:   "ping",
-	Short: "批量ping功能",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+var (
+	// pingCmd represents the ping command
+	pingCmd = &cobra.Command{
+		Use:   "ping",
+		Short: "批量ping功能",
+		Long: `批量ping功能.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		internal.BatchPing()
-	},
-}
+1. 自动识别本节点的可用IP地址
+2. ping的目标IP填写在工具目录下的配置文件中，config/config.yaml中的ping->destIP下,示例格式如下：
+
+ping:
+  descIP:
+  - 192.168.1.24
+  - www.baidu.com
+  - github.com
+  - www.google.com
+`,
+		Run: func(cmd *cobra.Command, args []string) {
+			internal.BatchPing()
+		},
+	}
+)
 
 func init() {
 	rootCmd.AddCommand(pingCmd)
